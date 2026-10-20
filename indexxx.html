@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPTEL Logistics & Supply Chain Management - Practice Portal</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & Babel CDN -->
+    <title>NPTEL Logistics & SCM Learning Portal</title>
+    <!-- React, ReactDOM, Babel & Tailwind CSS CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .perspective { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
@@ -23,6 +22,7 @@
     <script type="text/babel">
         const { useState } = React;
 
+        // 1. DATA: LECTURE & WEEK SUMMARIES
         const lectureSummaries = [
             { week: 1, title: "Introduction to Logistics & Service Tiers", summary: "Covers the 7 R's of logistics, logistics stakeholders, omni-channel logistics, dark stores, warehousing utilities, and 1PL through 5PL service providers." },
             { week: 2, title: "E-Logistics, International Trade & Quality Tools", summary: "Focuses on EDI, WMS, TMS, Blockchain traceability, Incoterms, market entry strategies (Exporting, Acquisitions), 7 QC Tools (Pareto 80/20, Fishbone, Scatter diagrams), and 5S principles." },
@@ -38,6 +38,7 @@
             { week: 12, title: "Sustainability, Emergency Logistics & Asset Management", summary: "Details the Triple Bottom Line (People, Planet, Profit), Work-in-Progress (WIP) assets, Emergency Supply Chain coordination (2015 Nepal earthquake), and complete Asset Lifecycles." }
         ];
 
+        // 2. DATA: CONCEPT FLASHCARDS
         const flashcardsData = [
             { id: 1, term: "7 R's of Logistics", definition: "Right Product, Right Quantity, Right Condition, Right Place, Right Time, Right Customer, Right Price." },
             { id: 2, term: "5PL (5th Party Logistics)", definition: "A logistics aggregator that manages full supply chain networks using advanced digital platforms." },
@@ -53,25 +54,39 @@
             { id: 12, term: "Vendor Managed Inventory (VMI)", definition: "Practice where the supplier assumes full responsibility for managing inventory at the retailer's facility." }
         ];
 
+        // 3. DATA: ASSIGNMENT PRACTICE QUESTIONS
         const assignmentQuestions = {
             1: [
                 { id: "w1_q1", question: "Which of the following best defines logistics?", options: ["A) Manufacturing goods at lowest cost", "B) Flow management of goods, information, and resources from origin to consumption", "C) Marketing and distribution only", "D) Financial planning of supply chains"], answer: "B", explanation: "Logistics encompasses managing the flow of goods, information, and resources from point of origin to consumption." },
                 { id: "w1_q2", question: "Just-in-Time (JIT) logistics primarily aims to:", options: ["A) Increase buffer stock", "B) Minimize inventory holding costs by aligning production with demand", "C) Expand supplier networks", "D) Increase lead times"], answer: "B", explanation: "JIT focuses on lean operations to minimize holding costs by receiving goods only as needed." },
-                { id: "w1_q3", question: "A 5PL (Fifth Party Logistics) provider is also known as a:", options: ["A) Logistics aggregator", "B) Asset-based carrier", "C) Lead logistics provider", "D) In-house manager"], answer: "A", explanation: "5PL providers act as logistics aggregators, consolidating supply chain networks using advanced IT systems." },
-                { id: "w1_q4", question: "Which modern logistics concept focuses on reducing environmental impact?", options: ["A) Lean Logistics", "B) Agile Logistics", "C) Green Logistics", "D) Reverse Logistics"], answer: "C", explanation: "Green logistics focuses specifically on ecological sustainability, packaging reduction, and emissions." }
+                { id: "w1_q3", question: "A 5PL (Fifth Party Logistics) provider is also known as a:", options: ["A) Logistics aggregator", "B) Asset-based carrier", "C) Lead logistics provider", "D) In-house manager"], answer: "A", explanation: "5PL providers act as logistics aggregators, consolidating supply chain networks using advanced IT systems." }
             ],
             2: [
                 { id: "w2_q1", question: "Which key element allows electronic exchange of POs and invoices between trading partners?", options: ["A) WMS", "B) TMS", "C) EDI", "D) GTM"], answer: "C", explanation: "Electronic Data Interchange (EDI) standardizes document exchange across business partners." },
-                { id: "w2_q2", question: "According to the 7 QC Tools, the Pareto Diagram is based on which principle?", options: ["A) 70-30 rule", "B) 80-20 rule", "C) 60-40 rule", "D) 90-10 rule"], answer: "B", explanation: "The Pareto Principle states that roughly 80% of problems stem from 20% of causes." },
-                { id: "w2_q3", question: "In the 5S philosophy, 'SEISO' corresponds to which action?", options: ["A) Sort", "B) Set in Order", "C) Standardize", "D) Shine"], answer: "D", explanation: "Seiso stands for Shine, which involves cleaning and inspecting the workplace." }
+                { id: "w2_q2", question: "According to the 7 QC Tools, the Pareto Diagram is based on which principle?", options: ["A) 70-30 rule", "B) 80-20 rule", "C) 60-40 rule", "D) 90-10 rule"], answer: "B", explanation: "The Pareto Principle states that roughly 80% of problems stem from 20% of causes." }
             ],
             3: [
                 { id: "w3_q1", question: "Green Supply Chain Management (GSCM) primarily reflects the relationship between:", options: ["A) Finance and procurement", "B) Natural environment and supply chain operations", "C) Customer satisfaction and branding", "D) Production and storage"], answer: "B", explanation: "GSCM integrates environmental considerations directly into core supply chain practices." },
                 { id: "w3_q2", question: "'Muri' in the context of lean logistics refers to:", options: ["A) Waste in processes", "B) Unevenness in demand", "C) Overburden or unnecessary stress on employees/processes", "D) Excess holding cost"], answer: "C", explanation: "In Toyota Production System, Muri stands for overburdening workers or machinery." }
             ],
+            4: [
+                { id: "w4_q1", question: "Elastic Logistics refers to the capability to:", options: ["A) Flexibly expand or shrink supply chain capacity based on real-time demand", "B) Store rubber goods", "C) Use elastic packaging materials", "D) Permanently double fleet size"], answer: "A", explanation: "Elastic logistics allows flexible scaling of logistics capacity up or down according to demand fluctuations." }
+            ],
+            5: [
+                { id: "w5_q1", question: "Which of the following is considered one of the 6 M's of production?", options: ["A) Margin", "B) Manpower", "C) Monopoly", "D) Maintenance"], answer: "B", explanation: "The 6 M's of production are Manpower, Machine, Material, Method, Measurement, and Milieu." }
+            ],
             6: [
                 { id: "w6_q1", question: "The three Supply Chain Macro Processes defined by Chopra are:", options: ["A) Plan, Source, Deliver", "B) CRM, ISCM, and SRM", "C) Procurement, Operations, Logistics", "D) Design, Build, Distribute"], answer: "B", explanation: "The three macro processes are Customer Relationship Management (CRM), Internal SCM (ISCM), and Supplier Relationship Management (SRM)." },
                 { id: "w6_q2", question: "According to Little's Law, reducing inventory while keeping throughput constant will:", options: ["A) Decrease flow time", "B) Increase flow time", "C) Have no effect on flow time", "D) Increase buffer stock"], answer: "A", explanation: "Little's Law (Inventory = Throughput × Flow Time) dictates that reducing inventory reduces flow time." }
+            ],
+            7: [
+                { id: "w7_q1", question: "Strategic Fit in a supply chain is achieved when:", options: ["A) Responsiveness matches implied demand uncertainty", "B) Costs are zero", "C) All suppliers are local", "D) Production is 100% automated"], answer: "A", explanation: "Strategic fit requires alignment between customer demand uncertainty and supply chain responsiveness capabilities." }
+            ],
+            8: [
+                { id: "w8_q1", question: "In ABC Analysis, 'A' class items typically represent:", options: ["A) High monetary value but small percentage of total items", "B) Low monetary value and large volume", "C) Items with zero lead time", "D) Obsolete stock"], answer: "A", explanation: "A-class items represent ~15-20% of items accounting for ~70-80% of total inventory value." }
+            ],
+            9: [
+                { id: "w9_q1", question: "The Center of Gravity (CG) location model aims to minimize:", options: ["A) Total transportation cost based on volume and distance", "B) Number of employees", "C) Warehouse height", "D) Supplier lead time"], answer: "A", explanation: "The CG model calculates coordinates that minimize weighted transportation costs." }
             ],
             10: [
                 { id: "w10_q1", question: "Which formula correctly identifies a facility's Efficiency percentage?", options: ["A) (Actual Output / Design Capacity) * 100%", "B) (Effective Capacity / Design Capacity) * 100%", "C) (Actual Output / Effective Capacity) * 100%", "D) (Design Capacity - Allowances) * 100%"], answer: "C", explanation: "Efficiency percentage is calculated as (Actual Output / Effective Capacity) × 100%." },
@@ -89,9 +104,13 @@
 
         function App() {
             const [activeTab, setActiveTab] = useState('summary');
+            
+            // Practice State
             const [selectedWeek, setSelectedWeek] = useState(1);
             const [userAnswers, setUserAnswers] = useState({});
             const [submitted, setSubmitted] = useState(false);
+
+            // Flashcard State
             const [cardIdx, setCardIdx] = useState(0);
             const [isFlipped, setIsFlipped] = useState(false);
 
@@ -101,36 +120,40 @@
                 }
             };
 
-            const currentQuestions = assignmentQuestions[selectedWeek] || assignmentQuestions[1];
+            const currentQuestions = assignmentQuestions[selectedWeek] || [];
+            const weeksList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
             return (
                 <div className="max-w-5xl mx-auto px-4 py-8">
+                    {/* Header */}
                     <header className="bg-indigo-600 text-white rounded-2xl p-6 shadow-md mb-8">
-                        <h1 className="text-3xl font-bold mb-1">NPTEL Logistics & SCM Portal</h1>
+                        <h1 className="text-3xl font-bold mb-1">NPTEL Logistics & SCM Learning Portal</h1>
                         <p className="text-indigo-100 text-sm">IIT Kharagpur — Prof. Vikas Thakur (Weeks 1 to 12)</p>
                     </header>
 
+                    {/* Navigation Bar */}
                     <div className="flex border-b border-slate-200 mb-8 bg-white rounded-xl shadow-sm p-1">
-                        <button
-                            onClick={() => setActiveTab('summary')}
+                        <button 
+                            onClick={() => setActiveTab('summary')} 
                             className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'summary' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
                         >
-                            📚 Week Summaries
+                            📚 Week & Lecture Summaries
                         </button>
-                        <button
-                            onClick={() => setActiveTab('practice')}
+                        <button 
+                            onClick={() => setActiveTab('practice')} 
                             className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'practice' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
                         >
                             🎯 Assignment Practice
                         </button>
-                        <button
-                            onClick={() => setActiveTab('flashcards')}
+                        <button 
+                            onClick={() => setActiveTab('flashcards')} 
                             className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'flashcards' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
                         >
                             🎴 Concept Flashcards
                         </button>
                     </div>
 
+                    {/* TAB 1: WEEK & LECTURE SUMMARIES */}
                     {activeTab === 'summary' && (
                         <div className="space-y-4">
                             <h2 className="text-2xl font-bold mb-4 text-slate-800">12-Week Course Lecture Summaries</h2>
@@ -150,10 +173,12 @@
                         </div>
                     )}
 
+                    {/* TAB 2: ASSIGNMENT PRACTICE */}
                     {activeTab === 'practice' && (
                         <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                            {/* Week Selection Bar */}
                             <div className="flex gap-2 overflow-x-auto pb-4 mb-6 border-b border-slate-100">
-                                {[1, 2, 3, 6, 10, 11, 12].map(wk => (
+                                {weeksList.map(wk => (
                                     <button
                                         key={wk}
                                         onClick={() => { setSelectedWeek(wk); setSubmitted(false); setUserAnswers({}); }}
@@ -170,86 +195,98 @@
                             </div>
 
                             <div className="space-y-6">
-                                {currentQuestions.map((q, idx) => {
-                                    const userChoice = userAnswers[q.id];
-                                    const isCorrect = userChoice === q.answer;
+                                {currentQuestions.length > 0 ? (
+                                    currentQuestions.map((q, idx) => {
+                                        const userChoice = userAnswers[q.id];
+                                        const isCorrect = userChoice === q.answer;
 
-                                    return (
-                                        <div key={q.id} className="border-b border-slate-100 pb-6 last:border-0">
-                                            <p className="font-semibold text-slate-900 mb-3">
-                                                <span className="text-indigo-600 mr-2">Q{idx + 1}.</span> {q.question}
-                                            </p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-                                                {q.options.map(opt => {
-                                                    const char = opt.charAt(0);
-                                                    const isSelected = userChoice === char;
-                                                    let style = "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100";
+                                        return (
+                                            <div key={q.id} className="border-b border-slate-100 pb-6 last:border-0">
+                                                <p className="font-semibold text-slate-900 mb-3">
+                                                    <span className="text-indigo-600 mr-2">Q{idx + 1}.</span> {q.question}
+                                                </p>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                                                    {q.options.map(opt => {
+                                                        const char = opt.charAt(0);
+                                                        const isSelected = userChoice === char;
+                                                        let style = "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100";
 
-                                                    if (submitted) {
-                                                        if (char === q.answer) style = "bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold";
-                                                        else if (isSelected && !isCorrect) style = "bg-rose-50 border-rose-300 text-rose-900";
-                                                    } else if (isSelected) {
-                                                        style = "bg-indigo-50 border-indigo-300 text-indigo-900 font-semibold";
-                                                    }
+                                                        if (submitted) {
+                                                            if (char === q.answer) style = "bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold";
+                                                            else if (isSelected && !isCorrect) style = "bg-rose-50 border-rose-300 text-rose-900";
+                                                        } else if (isSelected) {
+                                                            style = "bg-indigo-50 border-indigo-300 text-indigo-900 font-semibold";
+                                                        }
 
-                                                    return (
-                                                        <button
-                                                            key={char}
-                                                            onClick={() => handleOptionClick(q.id, char)}
-                                                            className={`text-left p-3 rounded-xl border text-sm transition-all ${style}`}
-                                                        >
-                                                            {opt}
-                                                        </button>
-                                                    );
-                                                })}
-                                            </div>
-
-                                            {submitted && (
-                                                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
-                                                    <strong className="text-indigo-600 block mb-1">Rationale:</strong>
-                                                    {q.explanation}
+                                                        return (
+                                                            <button 
+                                                                key={char} 
+                                                                onClick={() => handleOptionClick(q.id, char)}
+                                                                className={`text-left p-3 rounded-xl border text-sm transition-all ${style}`}
+                                                            >
+                                                                {opt}
+                                                            </button>
+                                                        );
+                                                    })}
                                                 </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
 
-                            <div className="mt-8 flex justify-end gap-4">
-                                {!submitted ? (
-                                    <button
-                                        onClick={() => setSubmitted(true)}
-                                        className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-indigo-700 transition-all"
-                                    >
-                                        Submit Answers
-                                    </button>
+                                                {submitted && (
+                                                    <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
+                                                        <strong className="text-indigo-600 block mb-1">Rationale:</strong>
+                                                        {q.explanation}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })
                                 ) : (
-                                    <button
-                                        onClick={() => { setSubmitted(false); setUserAnswers({}); }}
-                                        className="bg-slate-800 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-slate-900 transition-all"
-                                    >
-                                        Try Again
-                                    </button>
+                                    <div className="text-center py-8 text-slate-500">
+                                        No practice questions currently loaded for Week {selectedWeek}.
+                                    </div>
                                 )}
                             </div>
+
+                            {currentQuestions.length > 0 && (
+                                <div className="mt-8 flex justify-end gap-4">
+                                    {!submitted ? (
+                                        <button 
+                                            onClick={() => setSubmitted(true)}
+                                            className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-indigo-700 transition-all"
+                                        >
+                                            Submit Answers
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => { setSubmitted(false); setUserAnswers({}); }}
+                                            className="bg-slate-800 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-slate-900 transition-all"
+                                        >
+                                            Try Again
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     )}
 
+                    {/* TAB 3: CONCEPT FLASHCARDS */}
                     {activeTab === 'flashcards' && (
                         <div className="max-w-xl mx-auto text-center">
                             <h2 className="text-2xl font-bold mb-2">Key Concept Flashcards</h2>
                             <p className="text-slate-500 text-sm mb-6">Click the card to reveal the definition, formula, or concept</p>
 
-                            <div
-                                onClick={() => setIsFlipped(!isFlipped)}
+                            {/* 3D Flip Card */}
+                            <div 
+                                onClick={() => setIsFlipped(!isFlipped)} 
                                 className="cursor-pointer perspective h-64 w-full mb-6"
                             >
                                 <div className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}>
+                                    {/* Front */}
                                     <div className="absolute w-full h-full bg-indigo-600 text-white rounded-2xl p-8 flex flex-col justify-center items-center shadow-lg backface-hidden">
                                         <span className="text-xs uppercase tracking-widest text-indigo-200 mb-2">Flashcard #{cardIdx + 1}</span>
                                         <h3 className="text-2xl font-bold">{flashcardsData[cardIdx].term}</h3>
                                         <span className="mt-6 text-xs text-indigo-200 bg-indigo-700/50 px-3 py-1 rounded-full">Click to Flip 🔄</span>
                                     </div>
+                                    {/* Back */}
                                     <div className="absolute w-full h-full bg-slate-900 text-white rounded-2xl p-8 flex flex-col justify-center items-center shadow-lg backface-hidden rotate-y-180 border border-slate-700">
                                         <span className="text-xs uppercase tracking-widest text-emerald-400 mb-2">Definition / Formula</span>
                                         <p className="text-base text-slate-200 leading-relaxed">{flashcardsData[cardIdx].definition}</p>
@@ -257,15 +294,16 @@
                                 </div>
                             </div>
 
+                            {/* Controls */}
                             <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                                <button
+                                <button 
                                     onClick={() => { setIsFlipped(false); setCardIdx((cardIdx - 1 + flashcardsData.length) % flashcardsData.length); }}
                                     className="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition-all text-sm"
                                 >
                                     ← Previous
                                 </button>
                                 <span className="text-sm font-bold text-slate-600">{cardIdx + 1} of {flashcardsData.length}</span>
-                                <button
+                                <button 
                                     onClick={() => { setIsFlipped(false); setCardIdx((cardIdx + 1) % flashcardsData.length); }}
                                     className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all text-sm"
                                 >
@@ -278,6 +316,7 @@
             );
         }
 
+        // React 18 Root Render
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>

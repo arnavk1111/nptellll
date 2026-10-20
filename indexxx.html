@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPTEL Logistics & SCM Portal</title>
-    <!-- React & Tailwind CDN -->
+    <title>NPTEL Logistics & SCM Learning Portal</title>
+    <!-- React, ReactDOM, Babel & Tailwind CSS CDNs -->
     <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -22,50 +22,75 @@
     <script type="text/babel">
         const { useState } = React;
 
-        // 1. DATA: WEEKLY SUMMARIES
-        const weekSummaries = [
-            { week: 1, title: "Introduction to Logistics & Storage", summary: "Covers the 7 R's of logistics, logistics stakeholders, storage dark stores, 1PL to 5PL logistics service providers, and cross-docking utilities." },
-            { week: 2, title: "E-Logistics & Quality Tools", summary: "Focuses on EDI, WMS, TMS, blockchain in supply chains, Incoterms, international market entry, 7 QC tools (Pareto 80/20, PDCA), and 5S principles." },
-            { week: 3, title: "Reverse, Green & Lean Logistics", summary: "Explores reverse logistics flows, Green SCM (Myntra eco-packaging), the 3Ms (Muda, Muri, Mura), Toyota Production System, VSM, and DMAIC Six Sigma." },
-            { week: 4, title: "Modern Trends & Technology", summary: "Discusses Elastic Logistics, Amazon's anticipatory shipping, Flipkart drone last-mile delivery, Less Than Truckload (LTL), Cold Chains, and Smart Contracts." },
-            { week: 5, title: "Supply Chain Fundamentals & Operations", summary: "Contrasts manufacturing vs service supply chains (inventory vs queues), the 6 M's of production, 3 core SCM streams, and procurement management steps." },
-            { week: 6, title: "Uncertainty, SCOR & Drivers", summary: "Examines implied demand uncertainty, the SCOR Model (Plan, Source, Make, Deliver, Return), Cyclic & Push/Pull views, Little's Law, and the 6 key SCM drivers." },
-            { week: 7, title: "Strategic Fit & Case Studies", summary: "Analyzes SCM impellers, Bullwhip effect causes, Cybersecurity strategies, achieving Strategic Fit (matching uncertainty with capability), and Apple/Walmart models." },
-            { week: 8, title: "Strategic Sourcing & Vendor Rating", summary: "Details strategic sourcing vs cost-only purchasing, ABC Analysis, Lead Time definitions, Kaplan & Norton's Balanced Scorecard, and the Kraljic Matrix." },
-            { week: 9, title: "Distribution Network Design & Facility Location", summary: "Reviews distribution designs (Drop shipping, Direct storage), Last-mile delivery, Point Rating technique, and the mathematical Center of Gravity (CG) model." },
-            { week: 10, title: "Demand Forecasting & Capacity Planning", summary: "Covers Moving Averages, Exponential Smoothing, Efficiency % formula = (Actual/Effective)*100%, and Transportation decision components (Load, Mode, Flow, Route)." },
-            { week: 11, title: "Inventory Models & SCM Digitization", summary: "Examines Minimum Stock = Buffer + Safety, Decoupling inventory, Days Sales of Inventory (DSI), EOQ model, Zero Inventory (JIT), VMI, and IoT sensors." },
-            { week: 12, title: "Sustainability, Emergency Logistics & Assets", summary: "Details the Triple Bottom Line (People, Planet, Profit), Work-in-Progress (WIP), Emergency Supply Chain coordination (2015 Nepal earthquake), and Asset Lifecycles." }
+        // 1. DATA: LECTURE & WEEK SUMMARIES
+        const lectureSummaries = [
+            { week: 1, title: "Introduction to Logistics & Service Tiers", summary: "Covers the 7 R's of logistics, logistics stakeholders, omni-channel logistics, dark stores, warehousing utilities, and 1PL through 5PL service providers." },
+            { week: 2, title: "E-Logistics, International Trade & Quality Tools", summary: "Focuses on EDI, WMS, TMS, Blockchain traceability, Incoterms, market entry strategies (Exporting, Acquisitions), 7 QC Tools (Pareto 80/20, Fishbone, Scatter diagrams), and 5S principles." },
+            { week: 3, title: "Reverse, Green & Lean Supply Chains", summary: "Explores return logistics flows, Green SCM (Myntra eco-packaging), TPS lean principles, eliminating the 7 types of Muda, Muri (overburden), Mura (unevenness), VSM, and DMAIC Six Sigma." },
+            { week: 4, title: "Modern Trends, Technology & Cold Chains", summary: "Discusses Elastic Logistics, Amazon's anticipatory shipping, Flipkart drone deliveries, Less Than Truckload (LTL) consolidation, Cold Chains, and Smart Contracts." },
+            { week: 5, title: "Supply Chain Fundamentals & Operations", summary: "Contrasts manufacturing vs service supply chains (inventory vs queues), the 6 M's of production, vertical integration, insourcing/outsourcing, and procurement steps." },
+            { week: 6, title: "Demand Uncertainty, SCOR & Supply Chain Drivers", summary: "Examines implied demand uncertainty, Chopra's 3 macro processes (CRM, ISCM, SRM), SCOR model cycles, Push/Pull boundaries, Little's Law, and the 6 key SCM drivers." },
+            { week: 7, title: "Strategic Fit & Industry Case Studies", summary: "Analyzes supply chain impellers, Bullwhip effect causes, Cybersecurity strategies, achieving Strategic Fit, and case studies of Apple (manufacturing outsourcing) and Walmart (cross-docking)." },
+            { week: 8, title: "Strategic Sourcing, ABC Analysis & Balanced Scorecard", summary: "Details strategic sourcing vs purchase price, ABC Analysis (A-class items), Total Cost of Ownership, Lead time definitions, Vendor rating systems, and Kaplan & Norton's Balanced Scorecard." },
+            { week: 9, title: "Distribution Network Design & Facility Location", summary: "Reviews direct shipping, distributor storage, last-mile delivery, Point Rating technique, Simple Median rectilinear model, and the mathematical Center of Gravity (CG) model." },
+            { week: 10, title: "Demand Forecasting, Capacity & Transportation Math", summary: "Covers Moving Averages, Exponential Smoothing, Efficiency % formula, Capacity Planning, Transportation decisions (Load, Mode, Flow, Route), and initial feasible solutions (NWCR, Least Cost, VAM)." },
+            { week: 11, title: "Inventory Models, Sequencing & Digitization", summary: "Examines Minimum Stock = Buffer + Safety, Decoupling inventory, Days Sales of Inventory (DSI), EOQ, JIT Zero Inventory, VMI, ERP, and Johnson's sequencing algorithm for machine scheduling." },
+            { week: 12, title: "Sustainability, Emergency Logistics & Asset Management", summary: "Details the Triple Bottom Line (People, Planet, Profit), Work-in-Progress (WIP) assets, Emergency Supply Chain coordination (2015 Nepal earthquake), and complete Asset Lifecycles." }
         ];
 
-        // 2. DATA: FLASHCARDS
+        // 2. DATA: CONCEPT FLASHCARDS
         const flashcardsData = [
             { id: 1, term: "7 R's of Logistics", definition: "Right Product, Right Quantity, Right Condition, Right Place, Right Time, Right Customer, Right Price." },
             { id: 2, term: "5PL (5th Party Logistics)", definition: "A logistics aggregator that manages full supply chain networks using advanced digital platforms." },
-            { id: 3, term: "Cross-Docking", definition: "Unloading inbound shipments and directly loading them onto outbound vehicles with zero long-term storage." },
+            { id: 3, term: "Cross-Docking", definition: "Unloading inbound shipments and directly loading them onto outbound vehicles with zero long-term warehouse storage." },
             { id: 4, term: "EDI (Electronic Data Interchange)", definition: "Standardized electronic exchange of business documents (POs, invoices) between trading partners." },
-            { id: 5, term: "Bullwhip Effect", definition: "Phenomenon where small fluctuations in consumer demand amplify as orders move further upstream." },
+            { id: 5, term: "Bullwhip Effect", definition: "A phenomenon where small fluctuations in consumer demand amplify as orders move further upstream in the supply chain." },
             { id: 6, term: "SCOR Model", definition: "Supply Chain Operations Reference model consisting of 5 core processes: Plan, Source, Make, Deliver, Return." },
-            { id: 7, term: "Kraljic Matrix", definition: "Supplier segmentation tool categorizing items into Strategic, Bottleneck, Leverage, and Non-critical." },
+            { id: 7, term: "Kraljic Matrix", definition: "Supplier segmentation matrix categorizing items into Strategic, Bottleneck, Leverage, and Non-critical." },
             { id: 8, term: "Little's Law", definition: "Fundamental formula: Inventory = Throughput Rate × Flow Time." },
-            { id: 9, term: "Efficiency Formula", definition: "Efficiency % = (Actual Output / Effective Capacity) × 100%." },
+            { id: 9, term: "Facility Efficiency Formula", definition: "Efficiency % = (Actual Output / Effective Capacity) × 100%." },
             { id: 10, term: "Minimum Stock Formula", definition: "Minimum Stock = Buffer Stock + Safety Stock." },
             { id: 11, term: "Triple Bottom Line (TBL)", definition: "Sustainability framework balancing Financial (Profit), Social (People), and Environmental (Planet) impacts." },
-            { id: 12, term: "Vendor Managed Inventory (VMI)", definition: "Practice where the supplier assumes full responsibility for maintaining inventory at the retailer's facility." }
+            { id: 12, term: "Vendor Managed Inventory (VMI)", definition: "Practice where the supplier assumes full responsibility for managing inventory at the retailer's facility." }
         ];
 
-        // 3. DATA: SAMPLE ASSIGNMENT QUESTIONS
-        const sampleQuiz = [
-            { id: "q1", week: 1, question: "Which type of logistics provider is described as a 'Logistics Aggregator'?", options: ["A) 1PL", "B) 3PL", "C) 4PL", "D) 5PL"], answer: "D" },
-            { id: "q2", week: 2, question: "According to the 7 QC Tools, the Pareto Diagram is based on which principle?", options: ["A) 70-30 Rule", "B) 80-20 Rule", "C) 60-40 Rule", "D) 90-10 Rule"], answer: "B" },
-            { id: "q3", week: 3, question: "'Muri' in the Toyota Production System refers to:", options: ["A) Waste in processes", "B) Unevenness in demand", "C) Overburden on equipment or workers", "D) Excessive inventory"], answer: "C" },
-            { id: "q4", week: 6, question: "Which of the following is NOT one of the 5 primary processes in the SCOR Model?", options: ["A) Plan", "B) Source", "C) Market", "D) Deliver"], answer: "C" },
-            { id: "q5", week: 10, question: "Facility Efficiency is correctly calculated using which formula?", options: ["A) (Actual Output / Design Capacity) * 100%", "B) (Effective Capacity / Design Capacity) * 100%", "C) (Actual Output / Effective Capacity) * 100%", "D) (Design Capacity - Allowances) * 100%"], answer: "C" },
-            { id: "q6", week: 11, question: "Which formula is used to calculate Minimum Stock?", options: ["A) Minimum Stock = Safety Stock - Buffer Stock", "B) Minimum Stock = Buffer Stock + Safety Stock", "C) Minimum Stock = Reorder Level + Safety Stock", "D) Minimum Stock = Daily Sales * Lead Time"], answer: "B" }
-        ];
+        // 3. DATA: ASSIGNMENT PRACTICE QUESTIONS (WEEKS 1 TO 12)
+        const assignmentQuestions = {
+            1: [
+                { id: "w1_q1", question: "Which of the following best defines logistics?", options: ["A) Manufacturing goods at lowest cost", "B) Flow management of goods, information, and resources from origin to consumption", "C) Marketing and distribution only", "D) Financial planning of supply chains"], answer: "B", explanation: "Logistics encompasses managing the flow of goods, information, and resources from point of origin to consumption." },
+                { id: "w1_q2", question: "Just-in-Time (JIT) logistics primarily aims to:", options: ["A) Increase buffer stock", "B) Minimize inventory holding costs by aligning production with demand", "C) Expand supplier networks", "D) Increase lead times"], answer: "B", explanation: "JIT focuses on lean operations to minimize holding costs by receiving goods only as needed." },
+                { id: "w1_q3", question: "A 5PL (Fifth Party Logistics) provider is also known as a:", options: ["A) Logistics aggregator", "B) Asset-based carrier", "C) Lead logistics provider", "D) In-house manager"], answer: "A", explanation: "5PL providers act as logistics aggregators, consolidating supply chain networks using advanced IT systems." },
+                { id: "w1_q4", question: "Which modern logistics concept focuses on reducing environmental impact?", options: ["A) Lean Logistics", "B) Agile Logistics", "C) Green Logistics", "D) Reverse Logistics"], answer: "C", explanation: "Green logistics focuses specifically on ecological sustainability, packaging reduction, and emissions." }
+            ],
+            2: [
+                { id: "w2_q1", question: "Which key element allows electronic exchange of POs and invoices between trading partners?", options: ["A) WMS", "B) TMS", "C) EDI", "D) GTM"], answer: "C", explanation: "Electronic Data Interchange (EDI) standardizes document exchange across business partners." },
+                { id: "w2_q2", question: "According to the 7 QC Tools, the Pareto Diagram is based on which principle?", options: ["A) 70-30 rule", "B) 80-20 rule", "C) 60-40 rule", "D) 90-10 rule"], answer: "B", explanation: "The Pareto Principle states that roughly 80% of problems stem from 20% of causes." },
+                { id: "w2_q3", question: "In the 5S philosophy, 'SEISO' corresponds to which action?", options: ["A) Sort", "B) Set in Order", "C) Standardize", "D) Shine"], answer: "D", explanation: "Seiso stands for Shine, which involves cleaning and inspecting the workplace." }
+            ],
+            3: [
+                { id: "w3_q1", question: "Green Supply Chain Management (GSCM) primarily reflects the relationship between:", options: ["A) Finance and procurement", "B) Natural environment and supply chain operations", "C) Customer satisfaction and branding", "D) Production and storage"], answer: "B", explanation: "GSCM integrates environmental considerations directly into core supply chain practices." },
+                { id: "w3_q2", question: "'Muri' in the context of lean logistics refers to:", options: ["A) Waste in processes", "B) Unevenness in demand", "C) Overburden or unnecessary stress on employees/processes", "D) Excess holding cost"], answer: "C", explanation: "In Toyota Production System, Muri stands for overburdening workers or machinery." }
+            ],
+            6: [
+                { id: "w6_q1", question: "The three Supply Chain Macro Processes defined by Chopra are:", options: ["A) Plan, Source, Deliver", "B) CRM, ISCM, and SRM", "C) Procurement, Operations, Logistics", "D) Design, Build, Distribute"], answer: "B", explanation: "The three macro processes are Customer Relationship Management (CRM), Internal SCM (ISCM), and Supplier Relationship Management (SRM)." },
+                { id: "w6_q2", question: "According to Little's Law, reducing inventory while keeping throughput constant will:", options: ["A) Decrease flow time", "B) Increase flow time", "C) Have no effect on flow time", "D) Increase buffer stock"], answer: "A", explanation: "Little's Law (Inventory = Throughput × Flow Time) dictates that reducing inventory reduces flow time." }
+            ],
+            10: [
+                { id: "w10_q1", question: "Which formula correctly identifies a facility's Efficiency percentage?", options: ["A) (Actual Output / Design Capacity) * 100%", "B) (Effective Capacity / Design Capacity) * 100%", "C) (Actual Output / Effective Capacity) * 100%", "D) (Design Capacity - Allowances) * 100%"], answer: "C", explanation: "Efficiency percentage is calculated as (Actual Output / Effective Capacity) × 100%." },
+                { id: "w10_q2", question: "A Balanced Transportation Problem is a special case where:", options: ["A) Fixed costs equal variable costs", "B) Total supply equals total demand", "C) Only rail and road transit are used", "D) Source factories equal retail outlets"], answer: "B", explanation: "Transportation problems are balanced when total supply from all sources equals total demand at all destinations." }
+            ],
+            11: [
+                { id: "w11_q1", question: "Which formula is used to calculate Minimum Stock?", options: ["A) Minimum Stock = Safety Stock - Buffer Stock", "B) Minimum Stock = Buffer Stock + Safety Stock", "C) Minimum Stock = Reorder Level + Safety Stock", "D) Minimum Stock = Daily Sales × Lead Time"], answer: "B", explanation: "Minimum Stock is the reserve threshold calculated as Buffer Stock + Safety Stock." },
+                { id: "w11_q2", question: "What does the Days Sales of Inventory (DSI) metric indicate?", options: ["A) Annual raw material costs", "B) Profit percentage per unit", "C) Expiry timeline", "D) Average time in days to turn inventory into sales"], answer: "D", explanation: "DSI measures the average number of days required for a company to convert its stock into revenue." }
+            ],
+            12: [
+                { id: "w12_q1", question: "Who originally coined and developed the Triple Bottom Line concept?", options: ["A) John Elkington", "B) Michael Porter", "C) Edward Freeman", "D) Peter Drucker"], answer: "A", explanation: "John Elkington introduced the Triple Bottom Line (Profit, People, Planet) in 1994." },
+                { id: "w12_q2", question: "Goods currently in the middle of manufacturing but not yet completed are classified as:", options: ["A) Raw Materials", "B) Work-in-Progress (WIP)", "C) Packaging Materials", "D) Finished Goods"], answer: "B", explanation: "In-process production assets are categorized as Work-in-Progress (WIP)." }
+            ]
+        };
 
         function App() {
-            const [activeTab, setActiveTab] = useState('summary'); // 'practice', 'summary', 'flashcards'
+            const [activeTab, setActiveTab] = useState('summary');
             
             // Practice State
             const [selectedWeek, setSelectedWeek] = useState(1);
@@ -76,17 +101,19 @@
             const [cardIdx, setCardIdx] = useState(0);
             const [isFlipped, setIsFlipped] = useState(false);
 
-            const handleOptionClick = (qId, option) => {
+            const handleOptionClick = (qId, optionChar) => {
                 if (!submitted) {
-                    setUserAnswers({ ...userAnswers, [qId]: option });
+                    setUserAnswers({ ...userAnswers, [qId]: optionChar });
                 }
             };
+
+            const currentQuestions = assignmentQuestions[selectedWeek] || assignmentQuestions[1];
 
             return (
                 <div className="max-w-5xl mx-auto px-4 py-8">
                     {/* Header */}
                     <header className="bg-indigo-600 text-white rounded-2xl p-6 shadow-md mb-8">
-                        <h1 className="text-3xl font-bold mb-1">NPTEL Logistics & SCM Learning Portal</h1>
+                        <h1 className="text-3xl font-bold mb-1">NPTEL Logistics & SCM Portal</h1>
                         <p className="text-indigo-100 text-sm">IIT Kharagpur — Prof. Vikas Thakur (Weeks 1 to 12)</p>
                     </header>
 
@@ -117,7 +144,7 @@
                         <div className="space-y-4">
                             <h2 className="text-2xl font-bold mb-4 text-slate-800">12-Week Course Lecture Summaries</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {weekSummaries.map(item => (
+                                {lectureSummaries.map(item => (
                                     <div key={item.week} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
                                         <div className="flex items-center justify-between mb-2">
                                             <span className="text-xs font-bold uppercase tracking-wider bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">
@@ -135,13 +162,26 @@
                     {/* TAB 2: ASSIGNMENT PRACTICE */}
                     {activeTab === 'practice' && (
                         <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
-                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                                <h2 className="text-xl font-bold">Assignment Problem Practice</h2>
-                                <span className="text-sm font-semibold bg-slate-100 px-3 py-1 rounded-full text-slate-600">Sample Exam Mode</span>
+                            {/* Week Selection Bar */}
+                            <div className="flex gap-2 overflow-x-auto pb-4 mb-6 border-b border-slate-100">
+                                {[1-12].map(wk => (
+                                    <button
+                                        key={wk}
+                                        onClick={() => { setSelectedWeek(wk); setSubmitted(false); setUserAnswers({}); }}
+                                        className={`px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${selectedWeek === wk ? 'bg-indigo-600 text-white shadow' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                                    >
+                                        Week {wk}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-xl font-bold">Week {selectedWeek} Practice Questions</h2>
+                                <span className="text-xs font-semibold bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">Interactive Practice</span>
                             </div>
 
                             <div className="space-y-6">
-                                {sampleQuiz.map((q, idx) => {
+                                {currentQuestions.map((q, idx) => {
                                     const userChoice = userAnswers[q.id];
                                     const isCorrect = userChoice === q.answer;
 
@@ -150,7 +190,7 @@
                                             <p className="font-semibold text-slate-900 mb-3">
                                                 <span className="text-indigo-600 mr-2">Q{idx + 1}.</span> {q.question}
                                             </p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
                                                 {q.options.map(opt => {
                                                     const char = opt.charAt(0);
                                                     const isSelected = userChoice === char;
@@ -174,6 +214,13 @@
                                                     );
                                                 })}
                                             </div>
+
+                                            {submitted && (
+                                                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600">
+                                                    <strong className="text-indigo-600 block mb-1">Rationale:</strong>
+                                                    {q.explanation}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -185,14 +232,14 @@
                                         onClick={() => setSubmitted(true)}
                                         className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-indigo-700 transition-all"
                                     >
-                                        Check Answers
+                                        Submit Answers
                                     </button>
                                 ) : (
                                     <button 
                                         onClick={() => { setSubmitted(false); setUserAnswers({}); }}
                                         className="bg-slate-800 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-slate-900 transition-all"
                                     >
-                                        Reset Practice
+                                        Try Again
                                     </button>
                                 )}
                             </div>
@@ -247,7 +294,9 @@
             );
         }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+        // React 18 Root Render
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>

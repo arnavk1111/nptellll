@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPTEL Logistics & SCM Portal</title>
+    <!-- React & Tailwind CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .perspective { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // 1. DATA: WEEKLY SUMMARIES
+        const weekSummaries = [
+            { week: 1, title: "Introduction to Logistics & Storage", summary: "Covers the 7 R's of logistics, logistics stakeholders, storage dark stores, 1PL to 5PL logistics service providers, and cross-docking utilities." },
+            { week: 2, title: "E-Logistics & Quality Tools", summary: "Focuses on EDI, WMS, TMS, blockchain in supply chains, Incoterms, international market entry, 7 QC tools (Pareto 80/20, PDCA), and 5S principles." },
+            { week: 3, title: "Reverse, Green & Lean Logistics", summary: "Explores reverse logistics flows, Green SCM (Myntra eco-packaging), the 3Ms (Muda, Muri, Mura), Toyota Production System, VSM, and DMAIC Six Sigma." },
+            { week: 4, title: "Modern Trends & Technology", summary: "Discusses Elastic Logistics, Amazon's anticipatory shipping, Flipkart drone last-mile delivery, Less Than Truckload (LTL), Cold Chains, and Smart Contracts." },
+            { week: 5, title: "Supply Chain Fundamentals & Operations", summary: "Contrasts manufacturing vs service supply chains (inventory vs queues), the 6 M's of production, 3 core SCM streams, and procurement management steps." },
+            { week: 6, title: "Uncertainty, SCOR & Drivers", summary: "Examines implied demand uncertainty, the SCOR Model (Plan, Source, Make, Deliver, Return), Cyclic & Push/Pull views, Little's Law, and the 6 key SCM drivers." },
+            { week: 7, title: "Strategic Fit & Case Studies", summary: "Analyzes SCM impellers, Bullwhip effect causes, Cybersecurity strategies, achieving Strategic Fit (matching uncertainty with capability), and Apple/Walmart models." },
+            { week: 8, title: "Strategic Sourcing & Vendor Rating", summary: "Details strategic sourcing vs cost-only purchasing, ABC Analysis, Lead Time definitions, Kaplan & Norton's Balanced Scorecard, and the Kraljic Matrix." },
+            { week: 9, title: "Distribution Network Design & Facility Location", summary: "Reviews distribution designs (Drop shipping, Direct storage), Last-mile delivery, Point Rating technique, and the mathematical Center of Gravity (CG) model." },
+            { week: 10, title: "Demand Forecasting & Capacity Planning", summary: "Covers Moving Averages, Exponential Smoothing, Efficiency % formula = (Actual/Effective)*100%, and Transportation decision components (Load, Mode, Flow, Route)." },
+            { week: 11, title: "Inventory Models & SCM Digitization", summary: "Examines Minimum Stock = Buffer + Safety, Decoupling inventory, Days Sales of Inventory (DSI), EOQ model, Zero Inventory (JIT), VMI, and IoT sensors." },
+            { week: 12, title: "Sustainability, Emergency Logistics & Assets", summary: "Details the Triple Bottom Line (People, Planet, Profit), Work-in-Progress (WIP), Emergency Supply Chain coordination (2015 Nepal earthquake), and Asset Lifecycles." }
+        ];
+
+        // 2. DATA: FLASHCARDS
+        const flashcardsData = [
+            { id: 1, term: "7 R's of Logistics", definition: "Right Product, Right Quantity, Right Condition, Right Place, Right Time, Right Customer, Right Price." },
+            { id: 2, term: "5PL (5th Party Logistics)", definition: "A logistics aggregator that manages full supply chain networks using advanced digital platforms." },
+            { id: 3, term: "Cross-Docking", definition: "Unloading inbound shipments and directly loading them onto outbound vehicles with zero long-term storage." },
+            { id: 4, term: "EDI (Electronic Data Interchange)", definition: "Standardized electronic exchange of business documents (POs, invoices) between trading partners." },
+            { id: 5, term: "Bullwhip Effect", definition: "Phenomenon where small fluctuations in consumer demand amplify as orders move further upstream." },
+            { id: 6, term: "SCOR Model", definition: "Supply Chain Operations Reference model consisting of 5 core processes: Plan, Source, Make, Deliver, Return." },
+            { id: 7, term: "Kraljic Matrix", definition: "Supplier segmentation tool categorizing items into Strategic, Bottleneck, Leverage, and Non-critical." },
+            { id: 8, term: "Little's Law", definition: "Fundamental formula: Inventory = Throughput Rate × Flow Time." },
+            { id: 9, term: "Efficiency Formula", definition: "Efficiency % = (Actual Output / Effective Capacity) × 100%." },
+            { id: 10, term: "Minimum Stock Formula", definition: "Minimum Stock = Buffer Stock + Safety Stock." },
+            { id: 11, term: "Triple Bottom Line (TBL)", definition: "Sustainability framework balancing Financial (Profit), Social (People), and Environmental (Planet) impacts." },
+            { id: 12, term: "Vendor Managed Inventory (VMI)", definition: "Practice where the supplier assumes full responsibility for maintaining inventory at the retailer's facility." }
+        ];
+
+        // 3. DATA: SAMPLE ASSIGNMENT QUESTIONS
+        const sampleQuiz = [
+            { id: "q1", week: 1, question: "Which type of logistics provider is described as a 'Logistics Aggregator'?", options: ["A) 1PL", "B) 3PL", "C) 4PL", "D) 5PL"], answer: "D" },
+            { id: "q2", week: 2, question: "According to the 7 QC Tools, the Pareto Diagram is based on which principle?", options: ["A) 70-30 Rule", "B) 80-20 Rule", "C) 60-40 Rule", "D) 90-10 Rule"], answer: "B" },
+            { id: "q3", week: 3, question: "'Muri' in the Toyota Production System refers to:", options: ["A) Waste in processes", "B) Unevenness in demand", "C) Overburden on equipment or workers", "D) Excessive inventory"], answer: "C" },
+            { id: "q4", week: 6, question: "Which of the following is NOT one of the 5 primary processes in the SCOR Model?", options: ["A) Plan", "B) Source", "C) Market", "D) Deliver"], answer: "C" },
+            { id: "q5", week: 10, question: "Facility Efficiency is correctly calculated using which formula?", options: ["A) (Actual Output / Design Capacity) * 100%", "B) (Effective Capacity / Design Capacity) * 100%", "C) (Actual Output / Effective Capacity) * 100%", "D) (Design Capacity - Allowances) * 100%"], answer: "C" },
+            { id: "q6", week: 11, question: "Which formula is used to calculate Minimum Stock?", options: ["A) Minimum Stock = Safety Stock - Buffer Stock", "B) Minimum Stock = Buffer Stock + Safety Stock", "C) Minimum Stock = Reorder Level + Safety Stock", "D) Minimum Stock = Daily Sales * Lead Time"], answer: "B" }
+        ];
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('summary'); // 'practice', 'summary', 'flashcards'
+            
+            // Practice State
+            const [selectedWeek, setSelectedWeek] = useState(1);
+            const [userAnswers, setUserAnswers] = useState({});
+            const [submitted, setSubmitted] = useState(false);
+
+            // Flashcard State
+            const [cardIdx, setCardIdx] = useState(0);
+            const [isFlipped, setIsFlipped] = useState(false);
+
+            const handleOptionClick = (qId, option) => {
+                if (!submitted) {
+                    setUserAnswers({ ...userAnswers, [qId]: option });
+                }
+            };
+
+            return (
+                <div className="max-w-5xl mx-auto px-4 py-8">
+                    {/* Header */}
+                    <header className="bg-indigo-600 text-white rounded-2xl p-6 shadow-md mb-8">
+                        <h1 className="text-3xl font-bold mb-1">NPTEL Logistics & SCM Learning Portal</h1>
+                        <p className="text-indigo-100 text-sm">IIT Kharagpur — Prof. Vikas Thakur (Weeks 1 to 12)</p>
+                    </header>
+
+                    {/* Navigation Bar */}
+                    <div className="flex border-b border-slate-200 mb-8 bg-white rounded-xl shadow-sm p-1">
+                        <button 
+                            onClick={() => setActiveTab('summary')} 
+                            className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'summary' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
+                        >
+                            📚 Week & Lecture Summaries
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('practice')} 
+                            className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'practice' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
+                        >
+                            🎯 Assignment Practice
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('flashcards')} 
+                            className={`flex-1 py-3 text-center font-semibold rounded-lg transition-all ${activeTab === 'flashcards' ? 'bg-indigo-600 text-white shadow' : 'text-slate-600 hover:bg-slate-100'}`}
+                        >
+                            🎴 Concept Flashcards
+                        </button>
+                    </div>
+
+                    {/* TAB 1: WEEK & LECTURE SUMMARIES */}
+                    {activeTab === 'summary' && (
+                        <div className="space-y-4">
+                            <h2 className="text-2xl font-bold mb-4 text-slate-800">12-Week Course Lecture Summaries</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {weekSummaries.map(item => (
+                                    <div key={item.week} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-xs font-bold uppercase tracking-wider bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">
+                                                Week {item.week}
+                                            </span>
+                                        </div>
+                                        <h3 className="font-bold text-lg text-slate-900 mb-2">{item.title}</h3>
+                                        <p className="text-slate-600 text-sm leading-relaxed">{item.summary}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* TAB 2: ASSIGNMENT PRACTICE */}
+                    {activeTab === 'practice' && (
+                        <div className="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                                <h2 className="text-xl font-bold">Assignment Problem Practice</h2>
+                                <span className="text-sm font-semibold bg-slate-100 px-3 py-1 rounded-full text-slate-600">Sample Exam Mode</span>
+                            </div>
+
+                            <div className="space-y-6">
+                                {sampleQuiz.map((q, idx) => {
+                                    const userChoice = userAnswers[q.id];
+                                    const isCorrect = userChoice === q.answer;
+
+                                    return (
+                                        <div key={q.id} className="border-b border-slate-100 pb-6 last:border-0">
+                                            <p className="font-semibold text-slate-900 mb-3">
+                                                <span className="text-indigo-600 mr-2">Q{idx + 1}.</span> {q.question}
+                                            </p>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                {q.options.map(opt => {
+                                                    const char = opt.charAt(0);
+                                                    const isSelected = userChoice === char;
+                                                    let style = "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100";
+
+                                                    if (submitted) {
+                                                        if (char === q.answer) style = "bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold";
+                                                        else if (isSelected && !isCorrect) style = "bg-rose-50 border-rose-300 text-rose-900";
+                                                    } else if (isSelected) {
+                                                        style = "bg-indigo-50 border-indigo-300 text-indigo-900 font-semibold";
+                                                    }
+
+                                                    return (
+                                                        <button 
+                                                            key={char} 
+                                                            onClick={() => handleOptionClick(q.id, char)}
+                                                            className={`text-left p-3 rounded-xl border text-sm transition-all ${style}`}
+                                                        >
+                                                            {opt}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="mt-8 flex justify-end gap-4">
+                                {!submitted ? (
+                                    <button 
+                                        onClick={() => setSubmitted(true)}
+                                        className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-indigo-700 transition-all"
+                                    >
+                                        Check Answers
+                                    </button>
+                                ) : (
+                                    <button 
+                                        onClick={() => { setSubmitted(false); setUserAnswers({}); }}
+                                        className="bg-slate-800 text-white px-6 py-2.5 rounded-xl font-semibold shadow hover:bg-slate-900 transition-all"
+                                    >
+                                        Reset Practice
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* TAB 3: CONCEPT FLASHCARDS */}
+                    {activeTab === 'flashcards' && (
+                        <div className="max-w-xl mx-auto text-center">
+                            <h2 className="text-2xl font-bold mb-2">Key Concept Flashcards</h2>
+                            <p className="text-slate-500 text-sm mb-6">Click the card to reveal the definition, formula, or concept</p>
+
+                            {/* 3D Flip Card */}
+                            <div 
+                                onClick={() => setIsFlipped(!isFlipped)} 
+                                className="cursor-pointer perspective h-64 w-full mb-6"
+                            >
+                                <div className={`relative w-full h-full duration-500 transform-style-3d transition-transform ${isFlipped ? 'rotate-y-180' : ''}`}>
+                                    {/* Front */}
+                                    <div className="absolute w-full h-full bg-indigo-600 text-white rounded-2xl p-8 flex flex-col justify-center items-center shadow-lg backface-hidden">
+                                        <span className="text-xs uppercase tracking-widest text-indigo-200 mb-2">Flashcard #{cardIdx + 1}</span>
+                                        <h3 className="text-2xl font-bold">{flashcardsData[cardIdx].term}</h3>
+                                        <span className="mt-6 text-xs text-indigo-200 bg-indigo-700/50 px-3 py-1 rounded-full">Click to Flip 🔄</span>
+                                    </div>
+                                    {/* Back */}
+                                    <div className="absolute w-full h-full bg-slate-900 text-white rounded-2xl p-8 flex flex-col justify-center items-center shadow-lg backface-hidden rotate-y-180 border border-slate-700">
+                                        <span className="text-xs uppercase tracking-widest text-emerald-400 mb-2">Definition / Formula</span>
+                                        <p className="text-base text-slate-200 leading-relaxed">{flashcardsData[cardIdx].definition}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Controls */}
+                            <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <button 
+                                    onClick={() => { setIsFlipped(false); setCardIdx((cardIdx - 1 + flashcardsData.length) % flashcardsData.length); }}
+                                    className="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition-all text-sm"
+                                >
+                                    ← Previous
+                                </button>
+                                <span className="text-sm font-bold text-slate-600">{cardIdx + 1} of {flashcardsData.length}</span>
+                                <button 
+                                    onClick={() => { setIsFlipped(false); setCardIdx((cardIdx + 1) % flashcardsData.length); }}
+                                    className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all text-sm"
+                                >
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
